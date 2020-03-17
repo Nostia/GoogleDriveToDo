@@ -14,7 +14,7 @@ class GoogleAuth extends React.Component {
       DISCOVERY_DOCS: [
         "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"
       ],
-      SCOPES: "https://www.googleapis.com/auth/drive.metadata.readonly"
+      SCOPES: "https://www.googleapis.com/auth/drive"
     };
 
     this.authorizeButton = React.createRef();
@@ -105,11 +105,12 @@ class GoogleAuth extends React.Component {
     return (
       <div>
         {this.props.isSignedIn ? (
-          <Button onClick={this.props.googleUserSignOut}>Sign Out</Button>
+          <div>
+            <Button>Add List to Google Drive</Button>
+            <Button onClick={this.props.googleUserSignOut}>Sign Out</Button>
+          </div>
         ) : (
-          <Button onClick={this.syncTodoList}>
-            Sign In and Add List to Google Drive
-          </Button>
+          <Button onClick={this.syncTodoList}>Sign In</Button>
         )}
         <pre id="content"></pre>
       </div>

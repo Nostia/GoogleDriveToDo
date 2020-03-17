@@ -15,7 +15,7 @@ const GoogleAuth = (state = {}, action) => {
         isSignedIn: action.status
       };
     default:
-      return StyleSheet;
+      return state;
   }
 };
 
