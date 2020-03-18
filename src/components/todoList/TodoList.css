@@ -1,0 +1,13 @@
+.todo-list-wrapper {
+  min-width: 600px;
+  padding: 10px;
+}
+
+.todo-item-wrapper {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.todo-btn-remove {
+  justify-content: flex-end;
+}

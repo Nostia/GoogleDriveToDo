@@ -41,7 +41,6 @@ class GoogleAuth extends React.Component {
     window.gapi.load("client:auth2", initClient.bind(this));
 
     function initClient() {
-      console.log("init client", window.gapi, this);
       let gapi = window.gapi;
 
       gapi.client
@@ -52,12 +51,11 @@ class GoogleAuth extends React.Component {
           scope: this.state.SCOPES
         })
         .then(
-          () => {
+          res => {
+            console.log(res);
             gapi.auth2
               .getAuthInstance()
               .isSignedIn.listen(this.props.setSignInStatus);
-
-            // Handle the initial sign-in state.
             this.props.setSignInStatus(
               gapi.auth2.getAuthInstance().isSignedIn.get()
             );
@@ -71,23 +69,6 @@ class GoogleAuth extends React.Component {
 
   updateSigninStatus(isSignedIn) {
     if (isSignedIn) {
-      window.gapi.client.drive.files
-        .list({
-          pageSize: 10,
-          fields: "nextPageToken, files(id, name)"
-        })
-        .then(response => {
-          this.appendPre("Files:");
-          var files = response.result.files;
-          if (files && files.length > 0) {
-            for (var i = 0; i < files.length; i++) {
-              var file = files[i];
-              this.appendPre(file.name + " (" + file.id + ")");
-            }
-          } else {
-            this.appendPre("No files found.");
-          }
-        });
     }
   }
 
@@ -102,18 +83,14 @@ class GoogleAuth extends React.Component {
   }
 
   render() {
-    return (
-      <div>
-        {this.props.isSignedIn ? (
-          <div>
-            <Button>Add List to Google Drive</Button>
-            <Button onClick={this.props.googleUserSignOut}>Sign Out</Button>
-          </div>
-        ) : (
-          <Button onClick={this.syncTodoList}>Sign In</Button>
-        )}
-        <pre id="content"></pre>
-      </div>
+    return this.props.isSignedIn ? (
+      <Button onClick={this.props.googleUserSignOut} variant="contained">
+        Sign Out
+      </Button>
+    ) : (
+      <Button onClick={this.syncTodoList} variant="contained">
+        Sign In
+      </Button>
     );
   }
 }

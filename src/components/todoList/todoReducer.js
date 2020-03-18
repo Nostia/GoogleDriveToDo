@@ -1,7 +1,8 @@
 const todoList = (state = [], action) => {
+  let newState = state;
   switch (action.type) {
     case "ADD_TODO":
-      let newState = [
+      newState = [
         ...state,
         {
           id: action.id,
@@ -9,12 +10,18 @@ const todoList = (state = [], action) => {
           completed: false
         }
       ];
-      localStorage.setItem("todoList", JSON.stringify(newState));
+      syncTodods(newState);
       return newState;
     case "TOGGLE_TODO":
-      return state.map(todo =>
+      newState = state.map(todo =>
         todo.id === action.id ? { ...todo, completed: !todo.completed } : todo
       );
+      syncTodods(newState);
+      return newState;
+    case "REMOVE_TODO":
+      newState = state.filter(todo => todo.id !== action.id);
+      syncTodods(newState);
+      return newState;
     case "GET_TODO_LIST":
       try {
         let todoList = JSON.parse(localStorage.getItem("todoList"));
@@ -22,10 +29,14 @@ const todoList = (state = [], action) => {
       } catch (e) {
         return state;
       }
-
     default:
       return state;
   }
 };
 
+function syncTodods(newState) {
+  localStorage.setItem("todoList", JSON.stringify(newState));
+}
+
 export default todoList;
+export const getTodoList = state => state;
