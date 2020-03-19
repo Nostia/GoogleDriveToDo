@@ -15,3 +15,16 @@
 .todo-add-input {
   width: 100%;
 }
+
+.todo-btn-wrapper {
+  position: relative;
+}
+
+.todo-button-progress {
+  color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -12px;
+  margin-left: -12px;
+}

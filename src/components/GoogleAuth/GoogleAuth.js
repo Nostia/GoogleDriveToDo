@@ -38,7 +38,7 @@ class GoogleAuth extends React.Component {
   }
 
   onScriptLoad() {
-    window.gapi.load("client:auth2", initClient.bind(this));
+    window.gapi.load("client:auth2", this.props.clientInit);
 
     function initClient() {
       let gapi = window.gapi;
@@ -104,7 +104,8 @@ const mapDispatchToProps = dispatch => {
   return {
     googleUserSignIn: () => dispatch({ type: "USER_SIGNIN_REQUEST" }),
     googleUserSignOut: () => dispatch({ type: "USER_SIGNOUT_REQUEST" }),
-    setSignInStatus: status => dispatch({ type: "SET_SIGNIN_STATUS", status })
+    setSignInStatus: status => dispatch({ type: "SET_SIGNIN_STATUS", status }),
+    clientInit: () => dispatch({ type: "CLIENT_INIT" })
   };
 };
 

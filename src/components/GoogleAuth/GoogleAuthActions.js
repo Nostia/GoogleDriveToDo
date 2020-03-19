@@ -19,3 +19,5 @@ export const setSignInStatus = status => ({
   type: SET_SIGNIN_STATUS,
   status
 });
+
+export const CLIENT_INIT = "CLIENT_INIT";
