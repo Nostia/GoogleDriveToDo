@@ -29,7 +29,7 @@ function* userSignIn(action) {
 
 function* userSignOut(action) {
   try {
-    let res = yield window.gapi.auth2.getAuthInstance().signOut();
+    yield window.gapi.auth2.getAuthInstance().signOut();
     yield put({ type: USER_SIGNOUT_SUCCESS });
   } catch (err) {
     yield put({ type: USER_SIGNOUT_FAIL, value: err });

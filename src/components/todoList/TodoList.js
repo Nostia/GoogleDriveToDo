@@ -58,11 +58,11 @@ class TodoList extends React.Component {
     this.props.removeTodo(id);
   }
 
-  notification() {
+  renderNotification() {
     if (!this.props.uploadResult) return "";
     let type = this.props.uploadResult === "success" ? "success" : "error";
     let text =
-      this.props.uploadResult && this.props.uploadResult != "success"
+      this.props.uploadResult && this.props.uploadResult !== "success"
         ? `Todo list upload failed. Reason: ${this.props.uploadResult.message}`
         : "Todo list was uploaded successfully";
     return (
@@ -131,7 +131,7 @@ class TodoList extends React.Component {
             handleChange={this.handleChange}
           ></AddTodo>
         </CardContent>
-        {this.notification()}
+        {this.renderNotification()}
       </Card>
     );
   }

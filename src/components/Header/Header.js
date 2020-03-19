@@ -7,7 +7,7 @@ import "./Header.css";
 
 class Header extends React.Component {
   render() {
-    let greeting = `Hi,${this.props.userName ? this.props.userName : "Guest"}`;
+    let greeting = `Hi, ${this.props.userName ? this.props.userName : "Guest"}`;
     return (
       <div className="header-wrapper">
         <Typography variant="h3" component="h1" gutterBottom>

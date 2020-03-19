@@ -39,31 +39,6 @@ class GoogleAuth extends React.Component {
 
   onScriptLoad() {
     window.gapi.load("client:auth2", this.props.clientInit);
-
-    function initClient() {
-      let gapi = window.gapi;
-
-      gapi.client
-        .init({
-          apiKey: this.state.API_KEY,
-          clientId: this.state.CLIENT_ID,
-          discoveryDocs: this.state.DISCOVERY_DOCS,
-          scope: this.state.SCOPES
-        })
-        .then(
-          res => {
-            gapi.auth2
-              .getAuthInstance()
-              .isSignedIn.listen(this.props.setSignInStatus);
-            this.props.setSignInStatus(
-              gapi.auth2.getAuthInstance().isSignedIn.get()
-            );
-          },
-          function(error) {
-            this.appendPre(JSON.stringify(error, null, 2));
-          }
-        );
-    }
   }
 
   updateSigninStatus(isSignedIn) {
