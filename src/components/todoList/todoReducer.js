@@ -10,17 +10,17 @@ const todoList = (state = [], action) => {
           completed: false
         }
       ];
-      syncTodods(newState);
+      // syncTodods(newState);
       return newState;
     case "TOGGLE_TODO":
       newState = state.map(todo =>
         todo.id === action.id ? { ...todo, completed: !todo.completed } : todo
       );
-      syncTodods(newState);
+      // syncTodods(newState);
       return newState;
     case "REMOVE_TODO":
       newState = state.filter(todo => todo.id !== action.id);
-      syncTodods(newState);
+      // syncTodods(newState);
       return newState;
     case "GET_TODO_LIST":
       try {
@@ -34,9 +34,10 @@ const todoList = (state = [], action) => {
   }
 };
 
-function syncTodods(newState) {
-  localStorage.setItem("todoList", JSON.stringify(newState));
-}
-
 export default todoList;
 export const getTodoList = state => state;
+export const getCompletedTodos = state => {
+  return state.todoList.filter(t => t.completed);
+};
+export const getIncompletedTodos = state =>
+state.todoList.filter(t => !t.completed);

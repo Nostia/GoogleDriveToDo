@@ -1,6 +1,7 @@
 import React from "react";
-import { Checkbox, Button } from "@material-ui/core";
+import { Checkbox, IconButton } from "@material-ui/core";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 export default function todoItem(props) {
   return (
@@ -14,9 +15,13 @@ export default function todoItem(props) {
         }
         label={props.todo.text}
       />
-      <Button onClick={props.removeTodo} className="todo-btn-remove">
-        x
-      </Button>
+      <IconButton
+        aria-label="delete"
+        onClick={props.removeTodo}
+        className="todo-btn-remove"
+      >
+        <DeleteIcon />
+      </IconButton>
     </div>
   );
 }

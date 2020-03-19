@@ -12,7 +12,7 @@ function* userSignIn(action) {
   try {
     let res = yield window.gapi.auth2.getAuthInstance().signIn();
     const userProfile = res.getBasicProfile();
-    yield put({ type: USER_SIGNIN_SUCCESS, user: userProfile });
+    yield put({ type: USER_SIGNIN_SUCCESS, userName: userProfile.getName() });
   } catch (err) {
     yield put({ type: USER_SIGNIN_FAIL, value: err });
   }
@@ -21,7 +21,7 @@ function* userSignIn(action) {
 function* userSignOut(action) {
   try {
     let res = yield window.gapi.auth2.getAuthInstance().signOut();
-    yield put({ type: USER_SIGNOUT_SUCCESS, user: res });
+    yield put({ type: USER_SIGNOUT_SUCCESS });
   } catch (err) {
     console.log(err);
     yield put({ type: USER_SIGNOUT_FAIL, value: err });

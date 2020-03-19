@@ -2,24 +2,19 @@ import React from "react";
 import GoogleAuth from "../GoogleAuth/GoogleAuth";
 import { connect } from "react-redux";
 
-import { getUserName } from "../GoogleAuth/GoogleAuthReducer";
-
+import Typography from "@material-ui/core/Typography";
 import "./Header.css";
 
 class Header extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
+    let greeting = `Hi,${this.props.userName ? this.props.userName : "Guest"}`;
     return (
       <div className="header-wrapper">
-        <h1>Todo App</h1>
+        <Typography variant="h3" component="h1" gutterBottom>
+          Todo App
+        </Typography>
         <div>
-          <span className="header-greeting-wrapper">
-            {" "}
-            Hey, UserName
-            {/* {this.props.userName} */}
-          </span>
+          <span className="header-greeting-wrapper">{greeting}</span>
           <GoogleAuth></GoogleAuth>
         </div>
       </div>
@@ -30,12 +25,8 @@ class Header extends React.Component {
 const mapStateToProps = state => {
   return {
     isSignedIn: state.GoogleAuth.isSignedIn,
-    userName: getUserName(state)
+    userName: state.GoogleAuth.user
   };
 };
 
-const mapDispatchToProps = state => {
-  return {};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps)(Header);

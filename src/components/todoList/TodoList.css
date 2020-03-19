@@ -1,6 +1,6 @@
 .todo-list-wrapper {
   min-width: 600px;
-  padding: 10px;
+  padding: 20px;
 }
 
 .todo-item-wrapper {
@@ -10,4 +10,8 @@
 }
 .todo-btn-remove {
   justify-content: flex-end;
+}
+
+.todo-add-input {
+  width: 100%;
 }

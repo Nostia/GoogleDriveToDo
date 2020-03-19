@@ -1,11 +1,12 @@
-import { UPLOAD_TODO_LIST } from "./todoActions";
-import { getTodoList } from "./todoReducer";
+import { UPLOAD_TODO_LIST } from "./TodoActions";
+import { getCompletedTodos, getIncompletedTodos } from "./TodoReducer";
 
 import { select, takeLatest } from "redux-saga/effects";
-import todoItem from "./components/TodoItem";
 
 export function* uploadTodoList(action) {
-  let fileContent = JSON.stringify(yield select(getTodoList));
+  let completed = yield select(getCompletedTodos);
+  let incompleted = yield select(getIncompletedTodos);
+  let fileContent = composeFileContent(completed, incompleted);
   const folderId = "1qXkkJKUFORexsCqfWDjRcJrVSSzxes1r";
   let fileMetadata = {
     mimeType: "application/vnd.google-apps.document",
@@ -15,7 +16,6 @@ export function* uploadTodoList(action) {
     mimeType: "application/vnd.google-apps.document",
     body: fileContent
   };
-  ifFileExists();
   window.gapi.client.drive.files
     .create({
       name: "Todo.doc",
@@ -26,7 +26,6 @@ export function* uploadTodoList(action) {
       params: {
         uploadType: "media"
       },
-      //   body: fileContent,
       fields: "id"
     })
     .then(function(result) {
@@ -45,59 +44,15 @@ export function* uploadTodoList(action) {
       body: fileContent
     });
   }
+}
+function composeFileContent(completed, incompleted) {
+  let composeIncompleted = incompleted.map(t => `${t.text}\n`).join("");
 
-  function ifFileExists() {
-    window.gapi.client.drive.files
-      .list({
-        pageSize: 10,
-        fields: "nextPageToken, files(id, name)"
-      })
-      .then(response => {
-        var files = response.result.files;
-        if (files && files.length) {
-          let check = files.map(f => {
-            return f.name === "Todo.doc";
-          });
-          console.log(check);
-        } else {
-          this.appendPre("No files found.");
-        }
-      });
-  }
+  let composeCompleted = completed.map(t => `${t.text}\n`).join("");
+
+  return `Todo list:\n${composeIncompleted}\nCompleted items:\n${composeCompleted}`;
 }
 
 export function* onUploadTodoList() {
   yield takeLatest(UPLOAD_TODO_LIST, uploadTodoList);
 }
-
-// console.log("ok");
-// let fileContent = yield JSON.stringify(select(getTodoList));
-// console.log("content", fileContent);
-// // let fileContent = JSON.stringify(todoList);
-// let file = new Blob([fileContent], { type: "text/plain" });
-// let metadata = {
-//   name: "New T",
-//   mimeType: "text/plain",
-//   parents: [""]
-// };
-
-// var accessToken = window.gapi.auth.getToken().access_token; // Here gapi is used for retrieving the access token.
-// var form = new FormData();
-// form.append(
-//   "metadata",
-//   new Blob([JSON.stringify(metadata)], { type: "application/json" })
-// );
-// form.append("file", file);
-// console.log(form, file);
-// var xhr = new XMLHttpRequest();
-// xhr.open(
-//   "post",
-//   "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart"
-//   //  https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart
-// );
-// xhr.setRequestHeader("Authorization", "Bearer " + accessToken);
-// xhr.responseType = "json";
-// xhr.onload = () => {
-//   console.log(xhr.response.id); // Retrieve uploaded file ID.
-// };
-// xhr.send(form);

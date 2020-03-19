@@ -52,7 +52,6 @@ class GoogleAuth extends React.Component {
         })
         .then(
           res => {
-            console.log(res);
             gapi.auth2
               .getAuthInstance()
               .isSignedIn.listen(this.props.setSignInStatus);

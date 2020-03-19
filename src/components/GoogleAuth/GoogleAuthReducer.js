@@ -1,5 +1,3 @@
-import { createSelector } from "reselect";
-
 const initialState = {
   isSignedIn: false,
   user: null
@@ -11,11 +9,17 @@ const GoogleAuth = (state = initialState, action) => {
       return {
         ...state,
         isSignedIn: true,
-        user: action.user
+        user: action.userName
       };
     case "USER_SIGNIN_FAIL":
       return {
         ...state,
+        isSignedIn: false
+      };
+    case "USER_SIGNOUT_SUCCESS":
+      return {
+        ...state,
+        user: null,
         isSignedIn: false
       };
     case "SET_SIGNIN_STATUS":
@@ -27,7 +31,5 @@ const GoogleAuth = (state = initialState, action) => {
       return state;
   }
 };
-
-export const getUserName = state => state.user && state.user.getName();
 
 export default GoogleAuth;
