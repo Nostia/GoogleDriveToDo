@@ -2,30 +2,47 @@ import React from "react";
 import GoogleAuth from "../GoogleAuth/GoogleAuth";
 import { connect } from "react-redux";
 
-import Typography from "@material-ui/core/Typography";
+import { Typography, AppBar, Toolbar, IconButton } from "@material-ui/core";
+import InfoIcon from "@material-ui/icons/Info";
 import "./Header.css";
+import { getIsSignedIn, getUserName } from "../GoogleAuth/GoogleAuthReducer";
 
 class Header extends React.Component {
   render() {
-    let greeting = `Hi, ${this.props.userName ? this.props.userName : "Guest"}`;
+    const vw = Math.max(
+      document.documentElement.clientWidth,
+      window.innerWidth || 0
+    );
+    const smallScreen = vw < 600;
+    let greeting = `Welcome, ${
+      this.props.userName ? this.props.userName : "Guest"
+    } :)`;
     return (
-      <div className="header-wrapper">
-        <Typography variant="h3" component="h1" gutterBottom>
-          Todo App
-        </Typography>
-        <div>
-          <span className="header-greeting-wrapper">{greeting}</span>
+      <AppBar position="static" className="header-wrapper">
+        <Toolbar>
+          <Typography variant="h6" component="h1" className="header-title">
+            Todo App
+          </Typography>
+          {!smallScreen && <div className="header-greeting">{greeting}</div>}
           <GoogleAuth></GoogleAuth>
-        </div>
-      </div>
+          <IconButton
+            aria-label="info"
+            color="inherit"
+            onClick={this.props.showHowTo}
+          >
+            <InfoIcon></InfoIcon>
+          </IconButton>
+        </Toolbar>
+        {smallScreen && <Toolbar>{greeting}</Toolbar>}
+      </AppBar>
     );
   }
 }
 
 const mapStateToProps = state => {
   return {
-    isSignedIn: state.GoogleAuth.isSignedIn,
-    userName: state.GoogleAuth.user
+    isSignedIn: getIsSignedIn(state),
+    userName: getUserName(state)
   };
 };
 

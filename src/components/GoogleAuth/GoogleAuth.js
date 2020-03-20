@@ -2,26 +2,20 @@ import React from "react";
 import { Button } from "@material-ui/core";
 
 import { connect } from "react-redux";
+import { getIsSignedIn } from "./GoogleAuthReducer";
 
 class GoogleAuth extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      CLIENT_ID:
-        "852566243904-r719ipv77lgase30qnk47r12q1930dil.apps.googleusercontent.com",
-      API_KEY: "AIzaSyBg0WqCuZUMFoLiSDbE1gKdcKCoxiJMSFQ",
-      DISCOVERY_DOCS: [
-        "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"
-      ],
-      SCOPES: "https://www.googleapis.com/auth/drive"
-    };
-
     this.authorizeButton = React.createRef();
     this.signoutButton = React.createRef();
 
-    this.syncTodoList = this.syncTodoList.bind(this);
-    this.updateSigninStatus = this.updateSigninStatus.bind(this);
+    this.handleSignIn = this.handleSignIn.bind(this);
+  }
+
+  componentDidMount() {
+    this.loadApi();
   }
 
   loadApi() {
@@ -33,36 +27,25 @@ class GoogleAuth extends React.Component {
     document.body.appendChild(script);
   }
 
-  componentDidMount() {
-    this.loadApi();
-  }
-
   onScriptLoad() {
     window.gapi.load("client:auth2", this.props.clientInit);
   }
 
-  updateSigninStatus(isSignedIn) {
-    if (isSignedIn) {
-    }
-  }
-
-  appendPre(message) {
-    var pre = document.getElementById("content");
-    var textContent = document.createTextNode(message + "\n");
-    pre.appendChild(textContent);
-  }
-
-  syncTodoList() {
+  handleSignIn() {
     this.props.googleUserSignIn();
   }
 
   render() {
     return this.props.isSignedIn ? (
-      <Button onClick={this.props.googleUserSignOut} variant="contained">
+      <Button
+        color="inherit"
+        variant="outlined"
+        onClick={this.props.googleUserSignOut}
+      >
         Sign Out
       </Button>
     ) : (
-      <Button onClick={this.syncTodoList} variant="contained">
+      <Button color="inherit" variant="outlined" onClick={this.handleSignIn}>
         Sign In
       </Button>
     );
@@ -71,7 +54,7 @@ class GoogleAuth extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    isSignedIn: state.GoogleAuth.isSignedIn
+    isSignedIn: getIsSignedIn(state)
   };
 };
 

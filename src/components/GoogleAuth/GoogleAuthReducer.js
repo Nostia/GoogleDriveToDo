@@ -33,3 +33,11 @@ const GoogleAuth = (state = initialState, action) => {
 };
 
 export default GoogleAuth;
+
+export const getIsSignedIn = state => {
+  return state.GoogleAuth.isSignedIn;
+};
+export const getUserName = state => {
+  return state.GoogleAuth.user;
+};
+

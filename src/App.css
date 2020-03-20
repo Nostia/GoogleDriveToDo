@@ -1,5 +1,23 @@
-.app-list-wrapper {
+.app-wrapper {
   margin: 10px 100px;
   display: flex;
   flex-direction: column;
+}
+
+.app-main-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.app-how-to {
+  padding: 30px;
+}
+
+@media only screen and (max-width: 600px) {
+  .app-wrapper {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+  }
 }
