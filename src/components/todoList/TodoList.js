@@ -3,8 +3,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { getCompletedTodos, getIncompletedTodos } from "./TodoReducer";
 
-import AddTodo from "./components/AddTodo";
-import TodoItem from "./components/TodoItem";
+import AddTodo from "./components/AddTodo.js";
+import TodoItem from "./components/TodoItem.js";
 
 import {
   Button,
