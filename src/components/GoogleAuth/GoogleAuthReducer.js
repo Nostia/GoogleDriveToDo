@@ -1,6 +1,8 @@
 const initialState = {
   isSignedIn: false,
-  user: null
+  user: null,
+  signInError: null,
+  initError: null
 };
 
 const GoogleAuth = (state = initialState, action) => {
@@ -20,12 +22,18 @@ const GoogleAuth = (state = initialState, action) => {
       return {
         ...state,
         user: null,
-        isSignedIn: false
+        isSignedIn: false,
+        signInError: action.error
       };
     case "SET_SIGNIN_STATUS":
       return {
         ...state,
         isSignedIn: action.status
+      };
+    case "CLIENT_INIT_FAIL":
+      return {
+        ...state,
+        initError: action.error
       };
     default:
       return state;
@@ -41,3 +49,10 @@ export const getUserName = state => {
   return state.GoogleAuth.user;
 };
 
+export const getSignInErrorMessage = state => {
+  if (!state.GoogleAuth.signInError) return null;
+  return {
+    type: "error",
+    message: `Sign in failed. Reason: ${state.GoogleAuth.signInError}`
+  };
+};

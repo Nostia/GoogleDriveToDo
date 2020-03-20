@@ -21,3 +21,4 @@ export const setSignInStatus = status => ({
 });
 
 export const CLIENT_INIT = "CLIENT_INIT";
+export const CLIENT_INIT_FAIL = "CLIENT_INIT_FAIL";

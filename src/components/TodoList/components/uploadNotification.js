@@ -8,11 +8,6 @@ function Alert(props) {
 
 export default function UploadNotification(props) {
   if (!props.uploadResult) return "";
-  let type = props.uploadResult === "success" ? "success" : "error";
-  let text =
-    props.uploadResult && props.uploadResult !== "success"
-      ? `Todo list upload failed. Reason: ${props.uploadResult.message}`
-      : "Todo list was uploaded successfully";
   return (
     <div>
       <Snackbar
@@ -20,8 +15,11 @@ export default function UploadNotification(props) {
         autoHideDuration={3000}
         onClose={() => props.handleResetResult()}
       >
-        <Alert severity={type} onClose={() => props.handleResetResult()}>
-          {text}
+        <Alert
+          severity={props.uploadResult.type}
+          onClose={() => props.handleResetResult()}
+        >
+          {props.uploadResult.message}
         </Alert>
       </Snackbar>
     </div>

@@ -63,8 +63,14 @@ export const getIncompletedTodos = state => {
 export const getIsListUploading = state => {
   return state.todoList.isListUploading;
 };
-export const getuploadResult = state => {
-  return state.todoList.uploadResult;
+export const getUploadResultMessage = state => {
+  if (!state.todoList.uploadResult) return state.todoList.uploadResult;
+  return state.todoList.uploadResult === "success"
+    ? { type: "success", message: "Todo list was uploaded successfully" }
+    : {
+        type: "error",
+        message: `Todo list upload failed. Reason: ${state.todoList.uploadResult.message}`
+      };
 };
 export const getTodoList = state => {
   return state.todoList.list;

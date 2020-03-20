@@ -6,7 +6,7 @@ import {
   getCompletedTodos,
   getIncompletedTodos,
   getIsListUploading,
-  getuploadResult,
+  getUploadResultMessage,
   getTodoList
 } from "./TodoReducer";
 import { getIsSignedIn } from "../GoogleAuth/GoogleAuthReducer";
@@ -128,7 +128,7 @@ const mapStateToProps = state => {
     completedTodos: getCompletedTodos(state),
     incompletedTodos: getIncompletedTodos(state),
     isListUploading: getIsListUploading(state),
-    uploadResult: getuploadResult(state)
+    uploadResult: getUploadResultMessage(state)
   };
 };
 

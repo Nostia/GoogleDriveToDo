@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { Typography, AppBar, Toolbar, IconButton } from "@material-ui/core";
 import InfoIcon from "@material-ui/icons/Info";
 import "./Header.css";
-import { getIsSignedIn, getUserName } from "../GoogleAuth/GoogleAuthReducer";
+import { getUserName } from "../GoogleAuth/GoogleAuthReducer";
 
 class Header extends React.Component {
   render() {
@@ -41,7 +41,6 @@ class Header extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    isSignedIn: getIsSignedIn(state),
     userName: getUserName(state)
   };
 };

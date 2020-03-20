@@ -2,8 +2,9 @@ import React from "react";
 import { Button } from "@material-ui/core";
 
 import { connect } from "react-redux";
-import { getIsSignedIn } from "./GoogleAuthReducer";
+import { getIsSignedIn, getSignInErrorMessage } from "./GoogleAuthReducer";
 
+import UploadNotification from "../TodoList/components/uploadNotification";
 class GoogleAuth extends React.Component {
   constructor(props) {
     super(props);
@@ -12,6 +13,7 @@ class GoogleAuth extends React.Component {
     this.signoutButton = React.createRef();
 
     this.handleSignIn = this.handleSignIn.bind(this);
+    this.resetSignInStatus = this.resetSignInStatus.bind(this);
   }
 
   componentDidMount() {
@@ -35,26 +37,43 @@ class GoogleAuth extends React.Component {
     this.props.googleUserSignIn();
   }
 
+  resetSignInStatus() {
+    this.props.setSignInStatus(null);
+  }
+
   render() {
-    return this.props.isSignedIn ? (
-      <Button
-        color="inherit"
-        variant="outlined"
-        onClick={this.props.googleUserSignOut}
-      >
-        Sign Out
-      </Button>
-    ) : (
-      <Button color="inherit" variant="outlined" onClick={this.handleSignIn}>
-        Sign In
-      </Button>
+    return (
+      <div>
+        {this.props.isSignedIn ? (
+          <Button
+            color="inherit"
+            variant="outlined"
+            onClick={this.props.googleUserSignOut}
+          >
+            Sign Out
+          </Button>
+        ) : (
+          <Button
+            color="inherit"
+            variant="outlined"
+            onClick={this.handleSignIn}
+          >
+            Sign In
+          </Button>
+        )}
+        <UploadNotification
+          uploadResult={this.props.uploadResult}
+          handleResetResult={this.resetSignInStatus}
+        ></UploadNotification>
+      </div>
     );
   }
 }
 
 const mapStateToProps = state => {
   return {
-    isSignedIn: getIsSignedIn(state)
+    isSignedIn: getIsSignedIn(state),
+    uploadResult: getSignInErrorMessage(state)
   };
 };
 

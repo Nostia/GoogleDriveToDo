@@ -6,7 +6,8 @@ import {
   USER_SIGNOUT_REQUEST,
   USER_SIGNOUT_SUCCESS,
   USER_SIGNOUT_FAIL,
-  CLIENT_INIT
+  CLIENT_INIT,
+  CLIENT_INIT_FAIL
 } from "./GoogleAuthActions";
 
 const googleAuthData = {
@@ -47,11 +48,11 @@ function* clientInit(action) {
           window.gapi.auth2.getAuthInstance().isSignedIn.get()
         );
       },
-      function(error) {
-        this.appendPre(JSON.stringify(error, null, 2));
-      }
+      error => {}
     );
-  } catch (e) {}
+  } catch (error) {
+    yield put({ type: CLIENT_INIT_FAIL, error });
+  }
 }
 
 export function* onUserSignIn() {
