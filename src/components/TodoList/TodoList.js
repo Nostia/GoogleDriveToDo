@@ -1,7 +1,15 @@
 import React from "react";
+import { v4 as uuidv4 } from "uuid";
 
 import { connect } from "react-redux";
-import { getCompletedTodos, getIncompletedTodos } from "./TodoReducer";
+import {
+  getCompletedTodos,
+  getIncompletedTodos,
+  getIsListUploading,
+  getuploadResult,
+  getTodoList
+} from "./TodoReducer";
+import { getIsSignedIn } from "../GoogleAuth/GoogleAuthReducer";
 
 import AddTodo from "./components/AddTodo.js";
 import TodoItem from "./components/TodoItem.js";
@@ -15,15 +23,10 @@ import {
   CardContent,
   Tooltip,
   Typography,
-  CircularProgress,
-  Snackbar
+  CircularProgress
 } from "@material-ui/core";
-import MuiAlert from "@material-ui/lab/Alert";
 import "./TodoList.css";
-
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+import UploadNotification from "./components/uploadNotification";
 
 class TodoList extends React.Component {
   constructor(props) {
@@ -45,7 +48,7 @@ class TodoList extends React.Component {
   addTask(e) {
     if (this.state.newTask.length) {
       e.preventDefault();
-      this.props.addTodo(this.state.newTask, new Date().getUTCMilliseconds());
+      this.props.addTodo(this.state.newTask, uuidv4());
       this.setState({ newTask: "" });
     }
   }
@@ -56,28 +59,6 @@ class TodoList extends React.Component {
 
   handleRemoveTodo(id, e) {
     this.props.removeTodo(id);
-  }
-
-  renderNotification() {
-    if (!this.props.uploadResult) return "";
-    let type = this.props.uploadResult === "success" ? "success" : "error";
-    let text =
-      this.props.uploadResult && this.props.uploadResult !== "success"
-        ? `Todo list upload failed. Reason: ${this.props.uploadResult.message}`
-        : "Todo list was uploaded successfully";
-    return (
-      <div>
-        <Snackbar
-          open={!!this.props.uploadResult}
-          autoHideDuration={3000}
-          onClose={() => this.props.resetUploadResult()}
-        >
-          <Alert severity={type} onClose={() => this.props.resetUploadResult()}>
-            {text}
-          </Alert>
-        </Snackbar>
-      </div>
-    );
   }
 
   renderTodos(list) {
@@ -131,7 +112,10 @@ class TodoList extends React.Component {
             handleChange={this.handleChange}
           ></AddTodo>
         </CardContent>
-        {this.renderNotification()}
+        <UploadNotification
+          uploadResult={this.props.uploadResult}
+          handleResetResult={this.props.resetUploadResult}
+        ></UploadNotification>
       </Card>
     );
   }
@@ -139,12 +123,12 @@ class TodoList extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    todoList: state.todoList.list,
-    isSignedIn: state.GoogleAuth.isSignedIn,
+    todoList: getTodoList(state),
+    isSignedIn: getIsSignedIn(state), //state.GoogleAuth.isSignedIn,
     completedTodos: getCompletedTodos(state),
     incompletedTodos: getIncompletedTodos(state),
-    isListUploading: state.todoList.isListUploading,
-    uploadResult: state.todoList.uploadResult
+    isListUploading: getIsListUploading(state),
+    uploadResult: getuploadResult(state)
   };
 };
 

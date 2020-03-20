@@ -60,3 +60,12 @@ export const getCompletedTodos = state => {
 export const getIncompletedTodos = state => {
   return state.todoList.list.filter(t => !t.completed);
 };
+export const getIsListUploading = state => {
+  return state.todoList.isListUploading;
+};
+export const getuploadResult = state => {
+  return state.todoList.uploadResult;
+};
+export const getTodoList = state => {
+  return state.todoList.list;
+};
