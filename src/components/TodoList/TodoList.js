@@ -32,30 +32,26 @@ class TodoList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      todoList: [],
       newTask: "",
       showNotification: false
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.addTask = this.addTask.bind(this);
-    this.handleToggleTodo = this.handleToggleTodo.bind(this);
   }
 
-  handleChange(e) {
+  handleChange = e => {
     this.setState({ newTask: e.target.value });
-  }
+  };
 
-  addTask(e) {
+  addTask = e => {
     if (this.state.newTask.length) {
       e.preventDefault();
       this.props.addTodo(this.state.newTask, uuidv4());
       this.setState({ newTask: "" });
     }
-  }
+  };
 
-  handleToggleTodo(id, e) {
+  handleToggleTodo = (id, e) => {
     this.props.toggleTodo(id);
-  }
+  };
 
   handleRemoveTodo(id, e) {
     this.props.removeTodo(id);

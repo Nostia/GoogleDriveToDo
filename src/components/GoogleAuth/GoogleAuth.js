@@ -11,9 +11,6 @@ class GoogleAuth extends React.Component {
 
     this.authorizeButton = React.createRef();
     this.signoutButton = React.createRef();
-
-    this.handleSignIn = this.handleSignIn.bind(this);
-    this.resetSignInStatus = this.resetSignInStatus.bind(this);
   }
 
   componentDidMount() {
@@ -33,13 +30,13 @@ class GoogleAuth extends React.Component {
     window.gapi.load("client:auth2", this.props.clientInit);
   }
 
-  handleSignIn() {
+  handleSignIn = () => {
     this.props.googleUserSignIn();
-  }
+  };
 
-  resetSignInStatus() {
+  resetSignInStatus = () => {
     this.props.setSignInStatus(null);
-  }
+  };
 
   render() {
     return (

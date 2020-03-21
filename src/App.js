@@ -14,17 +14,15 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { isHowToVisible: false };
-    this.handleCloseHowTo = this.handleCloseHowTo.bind(this);
-    this.handleOpenHowTo = this.handleOpenHowTo.bind(this);
   }
 
-  handleCloseHowTo() {
+  handleCloseHowTo = () => {
     this.setState({ isHowToVisible: false });
-  }
+  };
 
-  handleOpenHowTo() {
+  handleOpenHowTo = () => {
     this.setState({ isHowToVisible: true });
-  }
+  };
 
   render() {
     return (

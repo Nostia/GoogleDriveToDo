@@ -11,19 +11,20 @@ const GoogleAuth = (state = initialState, action) => {
       return {
         ...state,
         isSignedIn: true,
-        user: action.userName
+        user: action.userName,
+        signInError: null
       };
     case "USER_SIGNIN_FAIL":
       return {
         ...state,
-        isSignedIn: false
+        isSignedIn: false,
+        signInError: action.error
       };
     case "USER_SIGNOUT_SUCCESS":
       return {
         ...state,
         user: null,
-        isSignedIn: false,
-        signInError: action.error
+        isSignedIn: false
       };
     case "SET_SIGNIN_STATUS":
       return {

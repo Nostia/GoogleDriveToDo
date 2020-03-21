@@ -9,11 +9,11 @@ import { getUserName } from "../GoogleAuth/GoogleAuthReducer";
 
 class Header extends React.Component {
   render() {
-    const vw = Math.max(
+    const viewportWidth = Math.max(
       document.documentElement.clientWidth,
       window.innerWidth || 0
     );
-    const smallScreen = vw < 600;
+    const smallScreen = viewportWidth < 600;
     let greeting = `Welcome, ${
       this.props.userName ? this.props.userName : "Guest"
     } :)`;
